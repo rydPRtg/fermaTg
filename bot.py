@@ -1,7 +1,7 @@
 import logging
 from aiogram import Bot, Dispatcher, executor, types
 
-API_TOKEN = '7308654023:AAF1hdW4f6VyeZnkn0kX946kIY6k7_xz9ZU'
+API_TOKEN = '7537553156:AAHsZxtEM8PtbA1WUVJxPQO5PmTEwEbDQEI'
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -13,13 +13,12 @@ dp = Dispatcher(bot)
 # Команда /start
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
-    await message.reply("Нажми на кнопку ниже, чтобы запустить игру!", reply_markup=game_button())
+    await message.reply("Привет! Нажми на кнопку, чтобы сыграть в игру.", reply_markup=game_button())
 
-# Кнопка для запуска игры через WebApp
+# Кнопка для запуска игры
 def game_button():
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    web_app = types.WebAppInfo(url="https://rydprtg.github.io/fermaTg/game/index.html")
-    game_button = types.KeyboardButton(text="Запустить игру", web_app=web_app)
+    markup = types.InlineKeyboardMarkup()
+    game_button = types.InlineKeyboardButton("Запустить игру", url="https://ваш-домен.com/game/index.html")
     markup.add(game_button)
     return markup
 
