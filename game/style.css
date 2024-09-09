@@ -1,0 +1,25 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  margin: 0;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 100px);
+  grid-gap: 10px;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  background-color: green;
+  cursor: pointer;
+}
+
+.clicked {
+  background-color: brown;
+}
