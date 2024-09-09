@@ -1,10 +1,19 @@
 body {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100vh;
   background-color: #f0f0f0;
   margin: 0;
+}
+
+#coin-counter {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .container {

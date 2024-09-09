@@ -8,6 +8,10 @@
 </head>
 <body>
 
+  <!-- Отображение количества монет -->
+  <div id="coin-counter">Монеты: 0</div>
+
+  <!-- Игровая область -->
   <div class="container">
     <div class="square"></div>
     <div class="square"></div>
@@ -15,16 +19,7 @@
     <div class="square"></div>
   </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const squares = document.querySelectorAll('.square');
-      squares.forEach(square => {
-        square.addEventListener('click', () => {
-          square.classList.toggle('clicked');
-        });
-      });
-    });
-  </script>
+  <script src="script.js"></script>
 
 </body>
 </html>
