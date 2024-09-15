@@ -8,12 +8,23 @@ body {
   margin: 0;
 }
 
-#coin-counter {
+#level-info {
   position: absolute;
   top: 10px;
   left: 10px;
+  font-size: 18px;
+  text-align: left;
+}
+
+#level, #experience {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+#coin-counter {
   font-size: 24px;
   font-weight: bold;
+  margin-top: 5px;
 }
 
 .container {
@@ -26,37 +37,56 @@ body {
 .square {
   width: 100px;
   height: 100px;
-  background-color: green;
+  background-color: green; /* Начальное состояние - зелёный */
+  position: relative;
   cursor: pointer;
 }
 
 .clicked {
-  background-color: brown;
+  background-color: brown; /* Второе состояние - коричневый */
 }
 
-/* Стили для контейнера с кнопками */
-.button-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
+.growing {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* Стили для каждой кнопки */
-.button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
+#notification {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffcc00;
+  padding: 10px;
+  border-radius: 5px;
+  display: none;
+  z-index: 1000;
 }
 
-.button img {
-  width: 50px;
-  height: 50px;
+#seed-selection {
+  position: absolute;
+  bottom: 100px;
+  background-color: #fff;
+  border: 2px solid #333;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
-.button span {
-  font-size: 14px;
-  margin-top: 5px;
-  text-align: center;
+#seed-selection button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.timer {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 12px;
 }
