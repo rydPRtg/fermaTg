@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
       if (selectedPlot) {
         plantSeed(selectedPlot, seedType);
       }
-      seedSelection.classList.add('hidden');  // Скрываем окно после выбора семени
+      seedSelection.style.display = 'none';  // Скрываем окно после выбора семени
       selectedPlot = null;
     });
   });
@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function() {
           showNotification('Уже растёт.');
         } else {
           selectedPlot = square;
-          seedSelection.classList.remove('hidden');  // Окно выбора семян открывается только при выборе обработанной грядки
+          seedSelection.style.display = 'block';  // Окно выбора семян открывается только при выборе обработанной грядки
         }
       } else if (activeButton === harvestButton) {
         if (square.classList.contains('mature')) {
@@ -162,8 +162,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // Скрываем окно выбора семян при старте игры
-  seedSelection.classList.add('hidden');
+  // Гарантируем скрытие окна выбора семян при старте игры
+  seedSelection.style.display = 'none';
 
   updateCoinsDisplay();
   updateExperience(0);
