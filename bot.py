@@ -1,6 +1,7 @@
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
+from aiogram.types import InputFile
 
 API_TOKEN = '7308654023:AAF1hdW4f6VyeZnkn0kX946kIY6k7_xz9ZU'
 
@@ -15,8 +16,14 @@ dp = Dispatcher(bot)
 # Команда /start
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
-    await message.reply("Привет! Добро пожаловать на ферму. Нажми на кнопку ниже, чтобы начать игру.",
-                        reply_markup=game_button())
+    # Путь к изображению
+    photo_path = 'images/welcome.jpg'  # Убедитесь, что путь правильный и файл существует
+    photo = InputFile(photo_path)
+
+    # Отправляем картинку с сообщением
+    await bot.send_photo(chat_id=message.chat.id, photo=photo,
+                         caption="Привет! Добро пожаловать на ферму. Нажми на кнопку ниже, чтобы начать игру.",
+                         reply_markup=game_button())
 
 
 # Кнопка для запуска игры через WebApp
