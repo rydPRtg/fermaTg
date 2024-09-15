@@ -1,45 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
-  let coins = 0;
+  let coins = 0;  // Локальное хранение монет
   const coinCounter = document.getElementById('coin-counter');
-  const squares = document.querySelectorAll('.square');
+  const squares = document.querySelectorAll('.square');  // Получаем все квадраты
 
-  // Функция для обновления монет на сервере
-  function updateCoinsOnServer(coins) {
-    fetch('/update_coins', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ coins: coins })
-    });
+  // Функция для обновления отображения монет
+  function updateCoinsDisplay() {
+    coinCounter.textContent = `Монеты: ${coins}`;
   }
 
-  // Функция для обновления состояния квадратов на сервере
-  function updateSquaresOnServer(squaresState) {
-    fetch('/update_squares', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ squares: squaresState })
-    });
-  }
-
-  // Отслеживаем клики по квадратам
-  squares.forEach((square, index) => {
+  // Добавляем обработчики для каждого квадрата
+  squares.forEach(square => {
     square.addEventListener('click', () => {
-      square.classList.toggle('clicked');
+      square.classList.toggle('clicked');  // Меняем цвет квадрата
       coins += 1;  // Увеличиваем количество монет
-      coinCounter.textContent = `Монеты: ${coins}`;  // Обновляем счетчик
-
-      // Обновляем монеты на сервере
-      updateCoinsOnServer(coins);
-
-      // Получаем текущее состояние квадратов (0 - зеленый, 1 - коричневый)
-      const squaresState = Array.from(squares).map(sq => sq.classList.contains('clicked') ? 1 : 0).join('');
-
-      // Обновляем состояние квадратов на сервере
-      updateSquaresOnServer(squaresState);
+      updateCoinsDisplay();  // Обновляем количество монет на экране
     });
   });
+
+  // Обновление количества монет при старте
+  updateCoinsDisplay();
 });
