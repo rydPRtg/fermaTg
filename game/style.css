@@ -4,9 +4,8 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url('images/photo_5424757619035334687_x.jpg'); /* Путь к изображению фона */
-  background-size: contain;
-  background-repeat: no-repeat;
+  background-image: url('images/photo_5424757619035334687_x.jpg');
+  background-size: cover; /* Фон занимает весь экран */
   background-position: center;
   margin: 0;
 }
@@ -33,19 +32,19 @@ body {
 /* Сетка для 9 грядок */
 .container {
   display: grid;
-  grid-template-columns: repeat(3, 80px);  /* 3 колонки */
-  grid-template-rows: repeat(3, 80px);     /* 3 строки */
+  grid-template-columns: repeat(3, 80px);
+  grid-template-rows: repeat(3, 80px);
   grid-gap: 35px;
   position: absolute;
-  top: 265px;                              /* Сдвигаем вниз */
-  left: 599px;                             /* Сдвигаем влево */
-  transform: rotateX(50deg) rotateZ(-37deg); /* Наклон и поворот грядок */
+  top: 50%;                              /* Центрируем грядки по вертикали */
+  left: 50%;                             /* Центрируем грядки по горизонтали */
+  transform: translate(-50%, -50%) rotateX(50deg) rotateZ(-37deg); /* Наклон и поворот грядок */
 }
 
 .square {
   width: 76px;
   height: 76px;
-  background-color: rgba(165, 42, 42, 0.8); /* Полупрозрачный коричневый */
+  background-color: rgba(165, 42, 42, 0.8);
   border: 2px solid #000;
   position: relative;
   cursor: pointer;
@@ -110,9 +109,9 @@ body {
   justify-content: center;
   gap: 20px;
   position: absolute;
-  bottom: 620px; /* Положение кнопок ближе к нижней части экрана */
+  bottom: 10px; /* Положение кнопок ближе к нижней части экрана */
   left: 50%;
-  transform: translateX(-50%); /* Центрирование по горизонтали */
+  transform: translateX(-50%);
 }
 
 .button {
