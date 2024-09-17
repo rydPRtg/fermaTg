@@ -4,7 +4,10 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f0f0f0;
+  background-image: url('images/photo_5424757619035334687_x.jpg'); /* Путь к изображению фона */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   margin: 0;
 }
 
@@ -27,29 +30,50 @@ body {
   margin-top: 5px;
 }
 
+/* Сетка для 9 грядок */
 .container {
   display: grid;
-  grid-template-columns: repeat(3, 100px);  /* Сетка 3x3 для 9 квадратов */
-  grid-gap: 10px;
-  margin-bottom: 20px; /* Отступ снизу для кнопок */
+  grid-template-columns: repeat(3, 80px);  /* 3 колонки */
+  grid-template-rows: repeat(3, 80px);     /* 3 строки */
+  grid-gap: 35px;
+  position: absolute;
+  top: 265px;                              /* Сдвигаем вниз */
+  left: 599px;                             /* Сдвигаем влево */
+  transform: rotateX(50deg) rotateZ(-37deg); /* Наклон и поворот грядок */
 }
 
 .square {
-  width: 100px;
-  height: 100px;
-  background-color: green; /* Начальное состояние - зелёный */
+  width: 76px;
+  height: 76px;
+  background-color: rgba(165, 42, 42, 0.8); /* Полупрозрачный коричневый */
+  border: 2px solid #000;
   position: relative;
   cursor: pointer;
+  transform: rotate(45deg); /* Поворот грядки */
 }
 
 .clicked {
-  background-color: brown; /* Второе состояние - коричневый */
+  background-color: brown;
 }
 
+/* Растения и таймеры внутри грядки */
 .growing {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  transform: rotate(-45deg); /* Сброс поворота, чтобы растение отображалось горизонтально */
+}
+
+.timer {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-45deg); /* Сброс поворота таймера */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 12px;
 }
 
 #notification {
@@ -80,27 +104,17 @@ body {
   margin-bottom: 10px;
 }
 
-.timer {
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-size: 12px;
-}
-
-/* Контейнер для кнопок - выравниваем кнопки в строку */
+/* Контейнер для кнопок */
 .button-container {
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: 20px;
+  position: absolute;
+  bottom: 620px; /* Положение кнопок ближе к нижней части экрана */
+  left: 50%;
+  transform: translateX(-50%); /* Центрирование по горизонтали */
 }
 
-/* Стили для каждой кнопки */
 .button {
   display: flex;
   flex-direction: column;
@@ -120,5 +134,5 @@ body {
 }
 
 .button.active {
-  border: 2px solid #000; /* Активная кнопка с выделением */
+  border: 2px solid #000;
 }
