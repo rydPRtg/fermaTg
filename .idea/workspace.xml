@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="без сервера">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/game/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/game/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +176,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726601547493</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="без сервера">
+      <option name="closed" value="true" />
+      <created>1726604571283</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1726604571283</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
