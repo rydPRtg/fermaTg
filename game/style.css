@@ -5,7 +5,7 @@ body {
   justify-content: center;
   height: 100vh;
   background-image: url('images/photo_5424757619035334687_x.jpg');
-  background-size: cover; /* Фон занимает весь экран */
+  background-size: cover;
   background-position: center;
   margin: 0;
 }
@@ -36,8 +36,8 @@ body {
   grid-template-rows: repeat(3, 80px);
   grid-gap: 35px;
   position: absolute;
-  top: 50%;                              /* Центрируем грядки по вертикали */
-  left: 50%;                             /* Центрируем грядки по горизонтали */
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%) rotateX(50deg) rotateZ(-37deg); /* Наклон и поворот грядок */
 }
 
@@ -46,7 +46,7 @@ body {
   height: 76px;
   background-color: rgba(165, 42, 42, 0.8);
   border: 2px solid #000;
-  position: relative;
+  position: relative; /* Относительное позиционирование для семян */
   cursor: pointer;
   transform: rotate(45deg); /* Поворот грядки */
 }
@@ -55,24 +55,32 @@ body {
   background-color: brown;
 }
 
-/* Растения и таймеры внутри грядки */
-.growing {
+/* Растение над грядками */
+.seed-image {
+  position: absolute;
+  top: -20px; /* Позиционируем чуть выше грядки */
+  left: 50%;
+  transform: translateX(-50%) rotate(3deg); /* Поворачиваем семя на 90 градусов по часовой стрелке */
+  width: 50px;
+  height: 50px;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  transform: rotate(-45deg); /* Сброс поворота, чтобы растение отображалось горизонтально */
+  z-index: 2; /* Семя над грядкой */
 }
 
+/* Таймер под растением */
 .timer {
   position: absolute;
-  bottom: 5px;
+  top: 60px;
   left: 50%;
-  transform: translateX(-50%) rotate(-45deg); /* Сброс поворота таймера */
+  transform: translateX(-50%) rotate(3deg); /* Центрируем и сбрасываем поворот для таймера */
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   padding: 2px 5px;
   border-radius: 3px;
   font-size: 12px;
+  z-index: 3;
 }
 
 #notification {
@@ -103,15 +111,16 @@ body {
   margin-bottom: 10px;
 }
 
-/* Контейнер для кнопок */
+/* Контейнер для кнопок управления */
 .button-container {
   display: flex;
   justify-content: center;
   gap: 20px;
   position: absolute;
-  bottom: 10px; /* Положение кнопок ближе к нижней части экрана */
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1001; /* Кнопки должны быть выше всех других элементов */
 }
 
 .button {
@@ -134,4 +143,24 @@ body {
 
 .button.active {
   border: 2px solid #000;
+}
+/* Остальные стили остаются без изменений */
+
+/* Галочка для созревшего растения */
+.seed-image .checkmark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background-image: url('images/checkmark.png'); /* Путь к изображению галочки */
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 3; /* Галочка над растением */
+  display: none; /* Скрыто по умолчанию */
+}
+
+/* Когда растение созревает, галочка становится видимой */
+.seed-image.mature .checkmark {
+  display: block;
 }

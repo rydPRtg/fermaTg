@@ -1,15 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-  let coins = 0;
-  let experience = 0;
-  let level = 1;
-  let activeButton = null;
-  let selectedPlot = null;
-  const experiencePerLevel = 100;
-  const maxLevel = 999;
+  let activeButton = null; // Текущая активная кнопка
+  let selectedPlot = null; // Грядка, на которую будет посажено семя
 
-  const coinCounter = document.getElementById('coin-counter');
-  const experienceCounter = document.getElementById('experience');
-  const levelCounter = document.getElementById('level');
   const processButton = document.getElementById('process');
   const plantButton = document.getElementById('plant');
   const harvestButton = document.getElementById('harvest');
@@ -25,29 +17,9 @@ document.addEventListener("DOMContentLoaded", function() {
     pepper: { growthTime: 120000, experience: 70, matureImage: 'images/mature_pepper.png' }
   };
 
-  // Функция для обновления монет
-  function updateCoinsDisplay() {
-    coinCounter.textContent = `Монеты: ${coins}`;
-  }
-
-  // Функция для обновления опыта и уровня
-  function updateExperience(amount) {
-    experience += amount;
-    const experienceForNextLevel = level * experiencePerLevel;
-
-    while (experience >= experienceForNextLevel && level < maxLevel) {
-      experience -= experienceForNextLevel;
-      level += 1;
-    }
-
-    levelCounter.textContent = `Уровень: ${level}`;
-    experienceCounter.textContent = `Опыт: ${experience} / ${level * experiencePerLevel}`;
-  }
-
-  // Функция для показа уведомлений
+  // Функция для показа уведомления
   function showNotification(message) {
     notification.textContent = message;
-    notification.classList.remove('hidden');
     notification.style.display = 'block';
 
     setTimeout(() => {
@@ -55,7 +27,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 2000);
   }
 
-  // Отключение предыдущей активной кнопки
+  // Активация кнопки
+  function activateButton(button) {
+    deactivateActiveButton();
+    button.classList.add('active');
+    activeButton = button;
+  }
+
+  // Деактивация текущей кнопки
   function deactivateActiveButton() {
     if (activeButton) {
       activeButton.classList.remove('active');
@@ -63,98 +42,68 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // Активация кнопки "Обработать"
-  processButton.addEventListener('click', () => {
-    deactivateActiveButton();
-    processButton.classList.add('active');
-    activeButton = processButton;
-  });
-
-  // Активация кнопки "Посадить"
-  plantButton.addEventListener('click', () => {
-    deactivateActiveButton();
-    plantButton.classList.add('active');
-    activeButton = plantButton;
-  });
-
-  // Активация кнопки "Собрать"
-  harvestButton.addEventListener('click', () => {
-    deactivateActiveButton();
-    harvestButton.classList.add('active');
-    activeButton = harvestButton;
-  });
-
-  // Обработка выбора семени
-  document.querySelectorAll('.seed').forEach(seedButton => {
-    seedButton.addEventListener('click', () => {
-      const seedType = seedButton.getAttribute('data-seed');
-      if (selectedPlot) {
-        plantSeed(selectedPlot, seedType);
-      }
-      seedSelection.style.display = 'none';  // Скрываем окно после выбора семени
-      selectedPlot = null;
-    });
-  });
-
-  // Посадка семени на грядку
+  // Посадка семени
   function plantSeed(plot, seedType) {
     const seed = seedData[seedType];
-    plot.classList.add('growing');
-    plot.style.backgroundImage = `url('images/${seedType}.png')`;
-    plot.dataset.seed = seedType;
 
+    // Добавляем изображение семени
+    const seedImage = document.createElement('div');
+    seedImage.classList.add('seed-image');
+    seedImage.style.backgroundImage = `url('images/${seedType}.png')`;
+    plot.appendChild(seedImage);
+
+    // Добавляем таймер
     const timer = document.createElement('div');
     timer.classList.add('timer');
     plot.appendChild(timer);
-    let timeLeft = seed.growthTime / 1000;
 
+    // Добавляем галочку
+    const checkmark = document.createElement('div');
+    checkmark.classList.add('checkmark');
+    seedImage.appendChild(checkmark);
+
+    let timeLeft = seed.growthTime / 1000;
     const interval = setInterval(() => {
       timeLeft -= 1;
       timer.textContent = `${timeLeft}s`;
 
       if (timeLeft <= 0) {
         clearInterval(interval);
-        plot.classList.remove('growing');
-        plot.classList.add('mature');
-        plot.style.backgroundImage = `url('${seed.matureImage}')`;
-        timer.textContent = 'Созрело';
+        seedImage.style.backgroundImage = `url('${seed.matureImage}')`;
+        seedImage.classList.add('mature'); // Отмечаем растение как созревшее
+        timer.textContent = ''; // Очищаем таймер
       }
     }, 1000);
   }
 
-  // Сбор урожая
-  function harvest(plot) {
-    const seedType = plot.dataset.seed;
-    if (!plot.classList.contains('mature')) {
-      showNotification('Растение ещё не созрело.');
-      return;
-    }
-
-    const seed = seedData[seedType];
-    plot.classList.remove('mature');
-    plot.style.backgroundImage = '';
-    plot.dataset.seed = '';
-    plot.classList.remove('clicked');
-    updateExperience(seed.experience);
-  }
-
-  // Добавляем обработчики для каждой грядки
+  // Обработка кликов на грядки
   squares.forEach(square => {
     square.addEventListener('click', () => {
+      // Если активирована кнопка "Обработать"
       if (activeButton === processButton && !square.classList.contains('clicked')) {
-        square.classList.add('clicked');
-      } else if (activeButton === plantButton) {
+        square.classList.add('clicked'); // Обрабатываем грядку
+        showNotification('Грядка обработана!');
+      }
+      // Если активирована кнопка "Посадить"
+      else if (activeButton === plantButton) {
         if (!square.classList.contains('clicked')) {
-          showNotification('Сначала обработайте грядку.');
-        } else if (square.classList.contains('growing') || square.classList.contains('mature')) {
-          showNotification('Уже растёт.');
+          showNotification('Сначала обработайте грядку.'); // Грядка не обработана
+        } else if (square.querySelector('.seed-image')) {
+          showNotification('Уже растёт.'); // Уже посажено растение
         } else {
           selectedPlot = square;
-          seedSelection.style.display = 'block';  // Окно выбора семян открывается только при выборе обработанной грядки
+          seedSelection.style.display = 'block'; // Открываем выбор семян
         }
-      } else if (activeButton === harvestButton) {
-        if (square.classList.contains('mature')) {
-          harvest(square);
+      }
+      // Если активирована кнопка "Собрать урожай"
+      else if (activeButton === harvestButton && square.querySelector('.seed-image')) {
+        const seedImage = square.querySelector('.seed-image');
+        const timer = square.querySelector('.timer');
+        if (seedImage.classList.contains('mature')) {
+          seedImage.remove(); // Убираем созревшее растение
+          timer.remove(); // Убираем таймер
+          square.classList.remove('clicked'); // Грядка снова становится необработанной
+          showNotification('Урожай собран!');
         } else {
           showNotification('Растение ещё не созрело.');
         }
@@ -162,9 +111,28 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // Гарантируем скрытие окна выбора семян при старте игры
-  seedSelection.style.display = 'none';
+  // Обработка кнопок управления
+  processButton.addEventListener('click', () => {
+    activateButton(processButton); // Активируем кнопку "Обработать"
+  });
 
-  updateCoinsDisplay();
-  updateExperience(0);
+  plantButton.addEventListener('click', () => {
+    activateButton(plantButton); // Активируем кнопку "Посадить"
+  });
+
+  harvestButton.addEventListener('click', () => {
+    activateButton(harvestButton); // Активируем кнопку "Собрать урожай"
+  });
+
+  // Выбор семени и посадка
+  document.querySelectorAll('.seed').forEach(seedButton => {
+    seedButton.addEventListener('click', () => {
+      const seedType = seedButton.getAttribute('data-seed');
+      if (selectedPlot) {
+        plantSeed(selectedPlot, seedType);
+        seedSelection.style.display = 'none'; // Закрываем окно выбора семян
+        selectedPlot = null;
+      }
+    });
+  });
 });
