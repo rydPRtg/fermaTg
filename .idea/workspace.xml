@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="ддд">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/game/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/game/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/game/style.css" afterDir="false" />
-    </list>
+    <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="ддд" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,7 +19,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -244,7 +238,23 @@
       <option name="project" value="LOCAL" />
       <updated>1726658807359</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="ддд">
+      <option name="closed" value="true" />
+      <created>1726691282918</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1726691282918</updated>
+    </task>
+    <task id="LOCAL-00020" summary="ддд">
+      <option name="closed" value="true" />
+      <created>1726691381430</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1726691381430</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
