@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="без сервера">
+    <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="ддд">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/game/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/game/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/game/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -225,13 +228,30 @@
       <option name="project" value="LOCAL" />
       <updated>1726653181464</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="без сервера">
+      <option name="closed" value="true" />
+      <created>1726658754926</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1726658754926</updated>
+    </task>
+    <task id="LOCAL-00018" summary="ддд">
+      <option name="closed" value="true" />
+      <created>1726658807359</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1726658807359</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="monet" />
     <MESSAGE value="сервер" />
     <MESSAGE value="без сервера" />
-    <option name="LAST_COMMIT_MESSAGE" value="без сервера" />
+    <MESSAGE value="ддд" />
+    <option name="LAST_COMMIT_MESSAGE" value="ддд" />
   </component>
 </project>

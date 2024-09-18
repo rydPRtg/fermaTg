@@ -45,11 +45,11 @@
       <img src="images/basket.png" alt="Собрать урожай">
       <span>Собрать урожай</span>
     </div>
-    <div class="button">
+    <div class="button" id="storage">
       <img src="images/storage.png" alt="Склад">
       <span>Склад</span>
     </div>
-    <div class="button">
+    <div class="button" id="shop">
       <img src="images/shop.png" alt="Магазин">
       <span>Магазин</span>
     </div>
@@ -67,6 +67,29 @@
     <button class="seed" data-seed="cucumber">Огурец (50 сек)</button>
     <button class="seed" data-seed="tomato">Помидор (1 мин)</button>
     <button class="seed" data-seed="pepper">Перец (2 мин)</button>
+  </div>
+
+  <!-- Окно склада -->
+  <div id="storage-window" class="hidden">
+    <div id="inventory-list"></div>
+    <button id="close-storage">Закрыть склад</button>
+  </div>
+
+  <!-- Окно магазина -->
+  <div id="shop-window" class="hidden">
+    <div id="shop-container">
+      <!-- Левая часть: Купить -->
+      <div id="shop-buy">
+        <h3>Купить</h3>
+        <div id="buy-list"></div>
+      </div>
+      <!-- Правая часть: Продать -->
+      <div id="shop-sell">
+        <h3>Продать</h3>
+        <div id="sell-list"></div>
+      </div>
+    </div>
+    <button id="close-shop">Закрыть магазин</button>
   </div>
 
   <script src="script.js"></script>
