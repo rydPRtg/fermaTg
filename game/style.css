@@ -38,7 +38,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotateX(50deg) rotateZ(-37deg); /* Наклон и поворот грядок */
+  transform: translate(-50%, -50%) rotateX(50deg) rotateZ(0deg); /* Наклон и поворот грядок */
 }
 
 .square {
@@ -48,7 +48,7 @@ body {
   border: 2px solid #000;
   position: relative; /* Относительное позиционирование для семян */
   cursor: pointer;
-  transform: rotate(75deg); /* Поворот грядки */
+  transform: rotate(0deg); /* Поворот грядки */
 }
 
 .clicked {
@@ -59,8 +59,8 @@ body {
 .seed-image {
   position: absolute;
   top: -20px; /* Позиционируем чуть выше грядки */
-  left: 30%;
-  transform: translateX(-50%) rotate(320deg); /* Поворачиваем семя на 90 градусов по часовой стрелке */
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg); /* Поворачиваем семя на 90 градусов по часовой стрелке */
   width: 50px;
   height: 50px;
   background-size: contain;
@@ -73,13 +73,13 @@ body {
 .timer {
   position: absolute;
   top: 60px;
-  left: 90%;
-  transform: translateX(-50%) rotate(320deg); /* Центрируем и сбрасываем поворот для таймера */
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg); /* Центрируем и сбрасываем поворот для таймера */
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   padding: 2px 5px;
   border-radius: 3px;
-  font-size: 12px;
+  font-size: 16px;
   z-index: 3;
 }
 
@@ -112,15 +112,18 @@ body {
 }
 
 /* Контейнер для кнопок управления */
+/* Контейнер для кнопок управления */
 .button-container {
   display: flex;
+  flex-wrap: wrap; /* Позволяет кнопкам переноситься на новую строку */
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1001; /* Кнопки должны быть выше всех других элементов */
+  width: 300px; /* Задаем ширину контейнера, чтобы кнопки переносились правильно */
 }
 
 .button {
@@ -128,6 +131,8 @@ body {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  flex: 1 1 calc(33.333% - 20px); /* Задаем ширину для каждой кнопки, чтобы они правильно обертывались */
+  box-sizing: border-box; /* Учитываем padding и border в ширине */
 }
 
 .button img {
@@ -144,6 +149,7 @@ body {
 .button.active {
   border: 2px solid #000;
 }
+
 /* Остальные стили остаются без изменений */
 
 /* Галочка для созревшего растения */
