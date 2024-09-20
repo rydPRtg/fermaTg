@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <!-- Отключаем зум на мобильных устройствах -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Ферма - Игровое поле</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -60,18 +60,16 @@
   </div>
 
   <!-- Окно выбора семян -->
-  <div id="seed-selection" class="hidden">
+  <div id="storage-selection" class="hidden">
     <h3>Выберите семя для посадки:</h3>
-    <button class="seed" data-seed="carrot">Морковка (30 сек)</button>
-    <button class="seed" data-seed="pumpkin">Тыква (45 сек)</button>
-    <button class="seed" data-seed="cucumber">Огурец (50 сек)</button>
-    <button class="seed" data-seed="tomato">Помидор (1 мин)</button>
-    <button class="seed" data-seed="pepper">Перец (2 мин)</button>
+    <div id="inventory-list"></div>
+    <button id="close-storage-selection">Закрыть</button>
   </div>
 
   <!-- Окно склада -->
   <div id="storage-window" class="hidden">
-    <div id="inventory-list"></div>
+    <h3>Ваш склад:</h3>
+    <div id="inventory-list-storage"></div>
     <button id="close-storage">Закрыть склад</button>
   </div>
 

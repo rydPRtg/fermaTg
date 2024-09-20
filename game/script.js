@@ -9,12 +9,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const harvestButton = document.getElementById('harvest');
   const storageButton = document.getElementById('storage');
   const shopButton = document.getElementById('shop');
-  const seedSelection = document.getElementById('seed-selection');
+  const storageSelection = document.getElementById('storage-selection');
+  const inventoryList = document.getElementById('inventory-list');
+  const storageWindow = document.getElementById('storage-window');
+  const inventoryListStorage = document.getElementById('inventory-list-storage');
+  const closeStorageButton = document.getElementById('close-storage');
+  const closeStorageSelectionButton = document.getElementById('close-storage-selection');
   const notification = document.getElementById('notification');
   const squares = document.querySelectorAll('.square');
-  const storageWindow = document.getElementById('storage-window');
-  const closeStorageButton = document.getElementById('close-storage');
-  const inventoryList = document.getElementById('inventory-list');
   const shopWindow = document.getElementById('shop-window');
   const buyList = document.getElementById('buy-list');
   const sellList = document.getElementById('sell-list');
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
     processed: 'images/processed_plot.png'
   };
 
+  // Уведомление
   function showNotification(message) {
     notification.textContent = message;
     notification.style.display = 'block';
@@ -43,12 +46,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 2000);
   }
 
+  // Активация кнопки
   function activateButton(button) {
     deactivateActiveButton();
     button.classList.add('active');
     activeButton = button;
   }
 
+  // Деактивация активной кнопки
   function deactivateActiveButton() {
     if (activeButton) {
       activeButton.classList.remove('active');
@@ -56,10 +61,14 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
+  // Обновление склада
   function updateStorage() {
     inventoryList.innerHTML = '';
+    inventoryListStorage.innerHTML = '';
+
     for (let seedType in seedInventory) {
       if (seedInventory[seedType] > 0) {
+        // Обновляем список для выбора при посадке
         const listItem = document.createElement('div');
         listItem.classList.add('inventory-item');
 
@@ -73,14 +82,157 @@ document.addEventListener("DOMContentLoaded", function() {
         listItem.appendChild(seedImage);
         listItem.appendChild(seedCount);
         inventoryList.appendChild(listItem);
+
+        // Обновляем склад
+        const storageItem = document.createElement('div');
+        storageItem.classList.add('inventory-item');
+        storageItem.appendChild(seedImage.cloneNode(true)); // Копируем изображение
+        storageItem.appendChild(seedCount.cloneNode(true)); // Копируем количество
+        inventoryListStorage.appendChild(storageItem);
+
+        // Событие выбора семени для посадки
+        listItem.addEventListener('click', () => {
+          if (selectedPlot) {
+            plantSeed(selectedPlot, seedType);
+            storageSelection.style.display = 'none';
+            selectedPlot = null;
+          }
+        });
       }
     }
   }
 
+  // Обновление счёта монет
   function updateCoins() {
     coinCounter.textContent = `Монеты: ${coins}`;
   }
 
+  // Посадка семени
+  function plantSeed(plot, seedType) {
+    if (seedInventory[seedType] <= 0) {
+      showNotification('У вас нет этого семени.');
+      return;
+    }
+
+    seedInventory[seedType] -= 1; // Убираем семя из инвентаря
+    updateStorage();
+
+    const seed = seedData[seedType];
+    const seedImage = document.createElement('div');
+    seedImage.classList.add('seed-image');
+    seedImage.style.backgroundImage = `url('images/${seedType}.png')`;
+    plot.appendChild(seedImage);
+
+    const timer = document.createElement('div');
+    timer.classList.add('timer');
+    plot.appendChild(timer);
+
+    const checkmark = document.createElement('div');
+    checkmark.classList.add('checkmark');
+    seedImage.appendChild(checkmark);
+
+    let timeLeft = seed.growthTime / 1000;
+    const interval = setInterval(() => {
+      timeLeft -= 1;
+      timer.textContent = `${timeLeft}s`;
+
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        seedImage.style.backgroundImage = `url('${seed.matureImage}')`;
+        seedImage.classList.add('mature');
+        timer.textContent = '';
+      }
+    }, 1000);
+  }
+
+  // Сбор урожая
+  squares.forEach(square => {
+    square.style.backgroundImage = `url('${plotImages.unprocessed}')`;
+
+    square.addEventListener('click', () => {
+      if (activeButton === processButton && !square.classList.contains('clicked')) {
+        // Обработка грядки
+        square.classList.add('clicked');
+        square.style.backgroundImage = `url('${plotImages.processed}')`;
+        showNotification('Грядка обработана!');
+      } else if (activeButton === plantButton) {
+        // Посадка семян
+        if (!square.classList.contains('clicked')) {
+          showNotification('Сначала обработайте грядку.');
+        } else if (square.querySelector('.seed-image')) {
+          showNotification('Уже растёт.');
+        } else {
+          selectedPlot = square;
+          storageSelection.style.display = 'block'; // Открываем окно выбора семян
+          updateStorage();
+        }
+      } else if (activeButton === harvestButton && square.querySelector('.seed-image')) {
+        // Сбор урожая
+        const seedImage = square.querySelector('.seed-image');
+        const timer = square.querySelector('.timer');
+        if (seedImage.classList.contains('mature')) {
+          // Получаем тип семени из изображения
+          const seedType = Object.keys(seedData).find(type => seedImage.style.backgroundImage.includes(type));
+
+          if (seedType) {
+            // Добавляем 2 семени на склад
+            seedInventory[seedType] += 2;
+            updateStorage();
+
+            // Убираем изображение и таймер
+            seedImage.remove();
+            timer.remove();
+            square.classList.remove('clicked');
+            square.style.backgroundImage = `url('${plotImages.unprocessed}')`;
+
+            showNotification(`Урожай собран: 2 ${seedType} добавлено на склад!`);
+          } else {
+            showNotification('Ошибка: не удалось определить тип семени.');
+          }
+        } else {
+          showNotification('Растение ещё не созрело.');
+        }
+      }
+    });
+  });
+
+  // События для кнопок
+  processButton.addEventListener('click', () => {
+    activateButton(processButton);
+  });
+
+  plantButton.addEventListener('click', () => {
+    activateButton(plantButton);
+  });
+
+  harvestButton.addEventListener('click', () => {
+    activateButton(harvestButton);
+  });
+
+  storageButton.addEventListener('click', () => {
+    storageWindow.style.display = 'block';
+    updateStorage();
+  });
+
+  closeStorageButton.addEventListener('click', () => {
+    storageWindow.style.display = 'none';
+  });
+
+  shopButton.addEventListener('click', () => {
+    shopWindow.style.display = 'block';
+    updateShop();
+  });
+
+  closeShopButton.addEventListener('click', () => {
+    shopWindow.style.display = 'none';
+  });
+
+  closeStorageSelectionButton.addEventListener('click', () => {
+    storageSelection.style.display = 'none';
+    selectedPlot = null;
+  });
+
+  // Обновление магазина
   function updateShop() {
     buyList.innerHTML = '';
     sellList.innerHTML = '';
@@ -153,134 +305,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   }
-
-  function plantSeed(plot, seedType) {
-    if (seedInventory[seedType] <= 0) {
-      showNotification('У вас нет этого семени.');
-      return;
-    }
-
-    seedInventory[seedType] -= 1;
-    updateStorage();
-
-    const seed = seedData[seedType];
-    const seedImage = document.createElement('div');
-    seedImage.classList.add('seed-image');
-    seedImage.style.backgroundImage = `url('images/${seedType}.png')`;
-    plot.appendChild(seedImage);
-
-    const timer = document.createElement('div');
-    timer.classList.add('timer');
-    plot.appendChild(timer);
-
-    const checkmark = document.createElement('div');
-    checkmark.classList.add('checkmark');
-    seedImage.appendChild(checkmark);
-
-    let timeLeft = seed.growthTime / 1000;
-    const interval = setInterval(() => {
-      timeLeft -= 1;
-      timer.textContent = `${timeLeft}s`;
-
-      if (timeLeft <= 0) {
-        clearInterval(interval);
-        seedImage.style.backgroundImage = `url('${seed.matureImage}')`;
-        seedImage.classList.add('mature');
-        timer.textContent = '';
-      }
-    }, 1000);
-  }
-
-  squares.forEach(square => {
-    square.style.backgroundImage = `url('${plotImages.unprocessed}')`;
-
-    square.addEventListener('click', () => {
-      if (activeButton === processButton && !square.classList.contains('clicked')) {
-        square.classList.add('clicked');
-        square.style.backgroundImage = `url('${plotImages.processed}')`;
-        showNotification('Грядка обработана!');
-      } else if (activeButton === plantButton) {
-        if (!square.classList.contains('clicked')) {
-          showNotification('Сначала обработайте грядку.');
-        } else if (square.querySelector('.seed-image')) {
-          showNotification('Уже растёт.');
-        } else {
-          selectedPlot = square;
-          seedSelection.style.display = 'block';
-          updateSeedSelection();
-        }
-      } else if (activeButton === harvestButton && square.querySelector('.seed-image')) {
-        const seedImage = square.querySelector('.seed-image');
-        const timer = square.querySelector('.timer');
-        if (seedImage.classList.contains('mature')) {
-          const seedType = seedImage.style.backgroundImage.match(/images\/(.+)\.png/)[1];
-          seedInventory[seedType] += 2; // Добавляем 2 семени на склад
-          updateStorage();
-
-          seedImage.remove();
-          timer.remove();
-          square.classList.remove('clicked');
-          square.style.backgroundImage = `url('${plotImages.unprocessed}')`;
-          showNotification('Урожай собран!');
-        } else {
-          showNotification('Растение ещё не созрело.');
-        }
-      }
-    });
-  });
-
-  function updateSeedSelection() {
-    const seedButtons = document.querySelectorAll('.seed');
-    seedButtons.forEach(seedButton => {
-      const seedType = seedButton.getAttribute('data-seed');
-      if (seedInventory[seedType] > 0) {
-        seedButton.style.display = 'block';
-      } else {
-        seedButton.style.display = 'none';
-      }
-    });
-  }
-
-  processButton.addEventListener('click', () => {
-    activateButton(processButton);
-  });
-
-  plantButton.addEventListener('click', () => {
-    activateButton(plantButton);
-  });
-
-  harvestButton.addEventListener('click', () => {
-    activateButton(harvestButton);
-  });
-
-  storageButton.addEventListener('click', () => {
-    storageWindow.style.display = 'block';
-    updateStorage();
-  });
-
-  closeStorageButton.addEventListener('click', () => {
-    storageWindow.style.display = 'none';
-  });
-
-  shopButton.addEventListener('click', () => {
-    shopWindow.style.display = 'block';
-    updateShop();
-  });
-
-  closeShopButton.addEventListener('click', () => {
-    shopWindow.style.display = 'none';
-  });
-
-  document.querySelectorAll('.seed').forEach(seedButton => {
-    seedButton.addEventListener('click', () => {
-      const seedType = seedButton.getAttribute('data-seed');
-      if (selectedPlot) {
-        plantSeed(selectedPlot, seedType);
-        seedSelection.style.display = 'none';
-        selectedPlot = null;
-      }
-    });
-  });
 
   updateCoins();
 });
