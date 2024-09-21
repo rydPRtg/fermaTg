@@ -42,6 +42,9 @@ document.addEventListener("DOMContentLoaded", function() {
     processed: 'images/processed_plot.png'
   };
 
+  const menuIcon = document.getElementById('menu-icon');
+  const dropdownMenu = document.getElementById('dropdown-menu');
+
   function showNotification(message) {
     notification.textContent = message;
     notification.style.display = 'block';
@@ -100,9 +103,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-function updateCoins() {
-    coinCounter.textContent = `${coins}`;  // Убираем "Монеты:" оставляем только число
-}
+  function updateCoins() {
+    coinCounter.textContent = coins;  // Убираем "Монеты:" оставляем только число
+  }
 
   function updateExperience(amount) {
     experience += amount;
@@ -308,6 +311,16 @@ function updateCoins() {
       }
     }
   }
+
+  menuIcon.addEventListener('click', () => {
+    dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!menuIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
+      dropdownMenu.style.display = 'none';
+    }
+  });
 
   updateCoins();
 });
