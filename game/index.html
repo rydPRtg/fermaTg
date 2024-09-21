@@ -21,7 +21,12 @@
     <img src="images/level.png" alt="Уровень" id="level-image">
     <span id="level">1</span> <!-- Цифра уровня -->
     <div id="experience">Опыт: 0 / 100</div>
-    <div id="coin-counter">Монеты: 0</div>
+  </div>
+
+  <!-- Отображение монет по центру -->
+  <div id="coin-info">
+    <img src="images/coin.png" alt="Монеты" id="coin-image">
+    <span id="coin-counter">100</span>
   </div>
 
   <!-- Игровое поле с растениями (9 грядок) -->
@@ -37,31 +42,33 @@
     <div class="square" data-plot-id="9"></div>
   </div>
 
-  <!-- Кнопки управления -->
-  <div class="button-container">
-    <div class="button" id="process">
-      <img src="images/shovel.png" alt="Обработать">
-      <span>Обработать</span>
-    </div>
-    <div class="button" id="plant">
-      <img src="images/plant.png" alt="Посадить">
-      <span>Посадить</span>
-    </div>
-    <div class="button" id="harvest">
-      <img src="images/basket.png" alt="Собрать урожай">
-      <span>Собрать урожай</span>
-    </div>
-    <div class="button" id="storage">
-      <img src="images/storage.png" alt="Склад">
-      <span>Склад</span>
-    </div>
-    <div class="button" id="shop">
-      <img src="images/shop.png" alt="Магазин">
-      <span>Магазин</span>
-    </div>
-    <div class="button">
-      <img src="images/rating.png" alt="Рейтинг">
-      <span>Рейтинг</span>
+  <!-- Контейнер с фоном для кнопок управления -->
+  <div class="button-container-background">
+    <div class="button-container">
+      <div class="button" id="process">
+        <img src="images/shovel.png" alt="Обработать">
+        <span>Обработать</span>
+      </div>
+      <div class="button" id="plant">
+        <img src="images/plant.png" alt="Посадить">
+        <span>Посадить</span>
+      </div>
+      <div class="button" id="harvest">
+        <img src="images/basket.png" alt="Собрать урожай">
+        <span>Собрать</span>
+      </div>
+      <div class="button" id="storage">
+        <img src="images/storage.png" alt="Склад">
+        <span>Склад</span>
+      </div>
+      <div class="button" id="shop">
+        <img src="images/shop.png" alt="Магазин">
+        <span>Магазин</span>
+      </div>
+      <div class="button">
+        <img src="images/rating.png" alt="Рейтинг">
+        <span>Рейтинг</span>
+      </div>
     </div>
   </div>
 

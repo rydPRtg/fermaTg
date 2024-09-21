@@ -100,9 +100,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  function updateCoins() {
-    coinCounter.textContent = `Монеты: ${coins}`;
-  }
+function updateCoins() {
+    coinCounter.textContent = `${coins}`;  // Убираем "Монеты:" оставляем только число
+}
 
   function updateExperience(amount) {
     experience += amount;

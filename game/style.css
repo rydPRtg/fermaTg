@@ -37,10 +37,25 @@ body {
   margin-bottom: 5px;
 }
 
+/* Центрирование и отображение монет */
+#coin-info {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+}
+
+#coin-image {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
 #coin-counter {
-  font-size: 24px;
   font-weight: bold;
-  margin-top: 5px;
 }
 
 /* Сетка для 9 грядок */
@@ -131,18 +146,25 @@ body {
   margin-bottom: 10px;
 }
 
+/* Полупрозрачный фон для кнопок с закруглёнными углами */
+.button-container-background {
+  background-color: rgba(50, 50, 50, 0.7); /* Полупрозрачный тёмно-серый фон */
+  padding: 20px;
+  border-radius: 15px; /* Закругленные углы */
+  position: absolute;
+  top: 70%; /* Опустили кнопки ниже */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  width: 350px;
+}
+
 /* Контейнер для кнопок управления */
 .button-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  position: absolute;
-  top: 70%; /* Опустили кнопки ниже */
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1001;
-  width: 300px;
 }
 
 .button {
@@ -152,6 +174,7 @@ body {
   cursor: pointer;
   flex: 1 1 calc(33.333% - 20px);
   box-sizing: border-box;
+  color: white; /* Белый цвет текста */
 }
 
 .button img {
@@ -211,8 +234,8 @@ body {
   padding: 20px;
   display: none;
   z-index: 1002;
-  overflow-y: auto; /* Добавляем вертикальный скролл для магазина */
-  max-height: 70%; /* Ограничиваем высоту магазина */
+  overflow-y: auto;
+  max-height: 70%;
 }
 
 #shop-container {
