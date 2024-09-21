@@ -21,15 +21,9 @@ body {
 }
 
 #level-image {
-  width: 50px; /* Увеличенный размер иконки уровня */
-  height: 50px;
+  width: 30px;
+  height: 30px;
   margin-right: 10px;
-}
-
-#level {
-  font-size: 32px;
-  font-weight: bold;
-  margin-left: 10px;
 }
 
 #experience {
@@ -50,7 +44,7 @@ body {
   grid-template-rows: repeat(3, 80px);
   grid-gap: 30px;
   position: absolute;
-  top: 45%; /* Подняли грядки выше */
+  top: 64%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -138,7 +132,7 @@ body {
   justify-content: center;
   gap: 10px;
   position: absolute;
-  top: 70%; /* Опустили кнопки ниже */
+  bottom: 480px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1001;
