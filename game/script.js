@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", function() {
   let selectedPlot = null;
   let seedInventory = { carrot: 0, pumpkin: 0, cucumber: 0, tomato: 0, pepper: 0 }; // Инвентарь семян
   let seedPrices = { carrot: 10, pumpkin: 15, cucumber: 20, tomato: 25, pepper: 30 }; // Стоимость семян
+  let experience = 0;
+  let currentLevel = 1;
+  let experienceToNextLevel = 100;
 
   const processButton = document.getElementById('process');
   const plantButton = document.getElementById('plant');
@@ -23,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const closeShopButton = document.getElementById('close-shop');
   let coins = 100; // Стартовое количество монет
   const coinCounter = document.getElementById('coin-counter');
+  const experienceDisplay = document.getElementById('experience');
+  const levelDisplay = document.getElementById('level');
 
   const seedData = {
     carrot: { growthTime: 30000, experience: 25, matureImage: 'images/mature_carrot.png' },
@@ -37,7 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
     processed: 'images/processed_plot.png'
   };
 
-  // Уведомление
   function showNotification(message) {
     notification.textContent = message;
     notification.style.display = 'block';
@@ -46,14 +50,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 2000);
   }
 
-  // Активация кнопки
   function activateButton(button) {
     deactivateActiveButton();
     button.classList.add('active');
     activeButton = button;
   }
 
-  // Деактивация активной кнопки
   function deactivateActiveButton() {
     if (activeButton) {
       activeButton.classList.remove('active');
@@ -61,14 +63,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // Обновление склада
   function updateStorage() {
     inventoryList.innerHTML = '';
     inventoryListStorage.innerHTML = '';
 
     for (let seedType in seedInventory) {
       if (seedInventory[seedType] > 0) {
-        // Обновляем список для выбора при посадке
         const listItem = document.createElement('div');
         listItem.classList.add('inventory-item');
 
@@ -83,14 +83,12 @@ document.addEventListener("DOMContentLoaded", function() {
         listItem.appendChild(seedCount);
         inventoryList.appendChild(listItem);
 
-        // Обновляем склад
         const storageItem = document.createElement('div');
         storageItem.classList.add('inventory-item');
-        storageItem.appendChild(seedImage.cloneNode(true)); // Копируем изображение
-        storageItem.appendChild(seedCount.cloneNode(true)); // Копируем количество
+        storageItem.appendChild(seedImage.cloneNode(true));
+        storageItem.appendChild(seedCount.cloneNode(true));
         inventoryListStorage.appendChild(storageItem);
 
-        // Событие выбора семени для посадки
         listItem.addEventListener('click', () => {
           if (selectedPlot) {
             plantSeed(selectedPlot, seedType);
@@ -102,19 +100,34 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   }
 
-  // Обновление счёта монет
   function updateCoins() {
     coinCounter.textContent = `Монеты: ${coins}`;
   }
 
-  // Посадка семени
+  function updateExperience(amount) {
+    experience += amount;
+    experienceDisplay.textContent = `Опыт: ${experience} / ${experienceToNextLevel}`;
+
+    if (experience >= experienceToNextLevel) {
+      levelUp();
+    }
+  }
+
+  function levelUp() {
+    currentLevel++;
+    levelDisplay.textContent = currentLevel;
+    experience -= experienceToNextLevel;
+    experienceToNextLevel += 100 * (currentLevel - 1);
+    experienceDisplay.textContent = `Опыт: ${experience} / ${experienceToNextLevel}`;
+  }
+
   function plantSeed(plot, seedType) {
     if (seedInventory[seedType] <= 0) {
       showNotification('У вас нет этого семени.');
       return;
     }
 
-    seedInventory[seedType] -= 1; // Убираем семя из инвентаря
+    seedInventory[seedType] -= 1;
     updateStorage();
 
     const seed = seedData[seedType];
@@ -145,41 +158,35 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 1000);
   }
 
-  // Сбор урожая
   squares.forEach(square => {
     square.style.backgroundImage = `url('${plotImages.unprocessed}')`;
 
     square.addEventListener('click', () => {
       if (activeButton === processButton && !square.classList.contains('clicked')) {
-        // Обработка грядки
         square.classList.add('clicked');
         square.style.backgroundImage = `url('${plotImages.processed}')`;
         showNotification('Грядка обработана!');
       } else if (activeButton === plantButton) {
-        // Посадка семян
         if (!square.classList.contains('clicked')) {
           showNotification('Сначала обработайте грядку.');
         } else if (square.querySelector('.seed-image')) {
           showNotification('Уже растёт.');
         } else {
           selectedPlot = square;
-          storageSelection.style.display = 'block'; // Открываем окно выбора семян
+          storageSelection.style.display = 'block';
           updateStorage();
         }
       } else if (activeButton === harvestButton && square.querySelector('.seed-image')) {
-        // Сбор урожая
         const seedImage = square.querySelector('.seed-image');
         const timer = square.querySelector('.timer');
         if (seedImage.classList.contains('mature')) {
-          // Получаем тип семени из изображения
           const seedType = Object.keys(seedData).find(type => seedImage.style.backgroundImage.includes(type));
 
           if (seedType) {
-            // Добавляем 2 семени на склад
             seedInventory[seedType] += 2;
             updateStorage();
+            updateExperience(seedData[seedType].experience);
 
-            // Убираем изображение и таймер
             seedImage.remove();
             timer.remove();
             square.classList.remove('clicked');
@@ -196,7 +203,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // События для кнопок
   processButton.addEventListener('click', () => {
     activateButton(processButton);
   });
@@ -232,13 +238,11 @@ document.addEventListener("DOMContentLoaded", function() {
     selectedPlot = null;
   });
 
-  // Обновление магазина
   function updateShop() {
     buyList.innerHTML = '';
     sellList.innerHTML = '';
 
     for (let seedType in seedData) {
-      // Купить
       const buyItem = document.createElement('div');
       buyItem.classList.add('shop-item');
 
@@ -269,7 +273,6 @@ document.addEventListener("DOMContentLoaded", function() {
       buyItem.appendChild(buyButton);
       buyList.appendChild(buyItem);
 
-      // Продать
       if (seedInventory[seedType] > 0) {
         const sellItem = document.createElement('div');
         sellItem.classList.add('shop-item');

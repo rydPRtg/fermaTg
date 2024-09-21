@@ -8,6 +8,8 @@ body {
   background-size: cover;
   background-position: center;
   margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: hidden; /* Отключаем скролл */
 }
 
 #level-info {
@@ -18,7 +20,19 @@ body {
   text-align: left;
 }
 
-#level, #experience {
+#level-image {
+  width: 50px; /* Увеличенный размер иконки уровня */
+  height: 50px;
+  margin-right: 10px;
+}
+
+#level {
+  font-size: 32px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+#experience {
   font-size: 18px;
   margin-bottom: 5px;
 }
@@ -36,7 +50,7 @@ body {
   grid-template-rows: repeat(3, 80px);
   grid-gap: 30px;
   position: absolute;
-  top: 64%;
+  top: 45%; /* Подняли грядки выше */
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -124,7 +138,7 @@ body {
   justify-content: center;
   gap: 10px;
   position: absolute;
-  bottom: 480px;
+  top: 70%; /* Опустили кнопки ниже */
   left: 50%;
   transform: translateX(-50%);
   z-index: 1001;
@@ -189,22 +203,26 @@ body {
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
-  width: 500px;
+  width: 90%;
+  max-width: 500px;
   background-image: url('images/shop_background.png');
   background-size: cover;
   border: 2px solid #333;
   padding: 20px;
   display: none;
   z-index: 1002;
+  overflow-y: auto; /* Добавляем вертикальный скролл для магазина */
+  max-height: 70%; /* Ограничиваем высоту магазина */
 }
 
 #shop-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 20px;
 }
 
 #shop-buy, #shop-sell {
-  width: 48%;
+  width: 100%;
 }
 
 .shop-item {
