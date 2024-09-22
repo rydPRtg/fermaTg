@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="MENU">
+    <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="заказы">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -312,7 +312,23 @@
       <option name="project" value="LOCAL" />
       <updated>1726949854142</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="MENU">
+      <option name="closed" value="true" />
+      <created>1727040674721</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1727040674721</updated>
+    </task>
+    <task id="LOCAL-00029" summary="заказы">
+      <option name="closed" value="true" />
+      <created>1727041621116</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1727041621116</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -333,6 +349,7 @@
     <MESSAGE value="ддд" />
     <MESSAGE value="склад и семена" />
     <MESSAGE value="MENU" />
-    <option name="LAST_COMMIT_MESSAGE" value="MENU" />
+    <MESSAGE value="заказы" />
+    <option name="LAST_COMMIT_MESSAGE" value="заказы" />
   </component>
 </project>
