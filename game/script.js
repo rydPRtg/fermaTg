@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const tasksList = document.getElementById('tasks-list');
   const closeTasksButton = document.getElementById('close-tasks');
 
-  let tasks = [];
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
   const taskImages = ['images/character_male.png', 'images/character_female.png'];
 
   function showNotification(message) {
@@ -330,6 +330,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.getElementById('tasks').addEventListener('click', () => {
     tasksWindow.style.display = 'block';
+    if (tasks.length === 0) {
+      generateInitialTasks();
+    }
     generateTasks();
   });
 
@@ -337,34 +340,57 @@ document.addEventListener("DOMContentLoaded", function() {
     tasksWindow.style.display = 'none';
   });
 
-  function generateTasks() {
-    tasksList.innerHTML = '';
-    tasks = [];
-
+  function generateInitialTasks() {
     for (let i = 0; i < 10; i++) {
       const task = generateTask();
       tasks.push(task);
+    }
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  function generateTasks() {
+    tasksList.innerHTML = '';
+
+    tasks.forEach(task => {
       const taskItem = document.createElement('div');
       taskItem.classList.add('task-item');
 
       const taskImage = document.createElement('img');
-      taskImage.src = taskImages[i % 2];
+      taskImage.src = taskImages[tasks.indexOf(task) % 2];
       taskImage.classList.add('task-icon');
 
       const taskDescription = document.createElement('div');
       taskDescription.textContent = `${task.seedType1} - ${task.quantity1}, ${task.seedType2} - ${task.quantity2}, Опыт: ${task.experience}`;
 
-      const acceptButton = document.createElement('button');
-      acceptButton.textContent = 'Принять заказ';
-      acceptButton.addEventListener('click', () => {
-        acceptTask(taskItem, task);
-      });
+      if (task.status === 'accepted') {
+        const completeButton = document.createElement('button');
+        completeButton.textContent = 'Сдать';
+        completeButton.addEventListener('click', () => {
+          completeTask(taskItem, task);
+        });
+
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Отменить';
+        cancelButton.addEventListener('click', () => {
+          cancelTask(taskItem, task);
+        });
+
+        taskItem.appendChild(completeButton);
+        taskItem.appendChild(cancelButton);
+      } else {
+        const acceptButton = document.createElement('button');
+        acceptButton.textContent = 'Принять заказ';
+        acceptButton.addEventListener('click', () => {
+          acceptTask(taskItem, task);
+        });
+
+        taskItem.appendChild(acceptButton);
+      }
 
       taskItem.appendChild(taskImage);
       taskItem.appendChild(taskDescription);
-      taskItem.appendChild(acceptButton);
       tasksList.appendChild(taskItem);
-    }
+    });
   }
 
   function generateTask() {
@@ -384,11 +410,15 @@ document.addEventListener("DOMContentLoaded", function() {
       seedType2,
       quantity1,
       quantity2,
-      experience
+      experience,
+      status: 'available'
     };
   }
 
   function acceptTask(taskItem, task) {
+    task.status = 'accepted';
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
     const completeButton = document.createElement('button');
     completeButton.textContent = 'Сдать';
     completeButton.addEventListener('click', () => {
@@ -413,6 +443,8 @@ document.addEventListener("DOMContentLoaded", function() {
       updateExperience(task.experience);
       updateStorage();
       taskItem.remove();
+      tasks = tasks.filter(t => t !== task);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
       generateNewTask();
       showNotification('Заказ сдан!');
     } else {
@@ -421,6 +453,8 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   function cancelTask(taskItem, task) {
+    task.status = 'available';
+    localStorage.setItem('tasks', JSON.stringify(tasks));
     taskItem.remove();
     generateNewTask();
     showNotification('Заказ отменён!');
@@ -429,6 +463,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function generateNewTask() {
     const newTask = generateTask();
     tasks.push(newTask);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
     const taskItem = document.createElement('div');
     taskItem.classList.add('task-item');
 
