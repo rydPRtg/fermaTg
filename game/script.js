@@ -44,6 +44,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const menuIcon = document.getElementById('menu-icon');
   const dropdownMenu = document.getElementById('dropdown-menu');
+  const tasksWindow = document.getElementById('tasks-window');
+  const tasksList = document.getElementById('tasks-list');
+  const closeTasksButton = document.getElementById('close-tasks');
+
+  let tasks = [];
+  const taskImages = ['images/character_male.png', 'images/character_female.png'];
 
   function showNotification(message) {
     notification.textContent = message;
@@ -321,6 +327,129 @@ document.addEventListener("DOMContentLoaded", function() {
       dropdownMenu.style.display = 'none';
     }
   });
+
+  document.getElementById('tasks').addEventListener('click', () => {
+    tasksWindow.style.display = 'block';
+    generateTasks();
+  });
+
+  closeTasksButton.addEventListener('click', () => {
+    tasksWindow.style.display = 'none';
+  });
+
+  function generateTasks() {
+    tasksList.innerHTML = '';
+    tasks = [];
+
+    for (let i = 0; i < 10; i++) {
+      const task = generateTask();
+      tasks.push(task);
+      const taskItem = document.createElement('div');
+      taskItem.classList.add('task-item');
+
+      const taskImage = document.createElement('img');
+      taskImage.src = taskImages[i % 2];
+      taskImage.classList.add('task-icon');
+
+      const taskDescription = document.createElement('div');
+      taskDescription.textContent = `${task.seedType1} - ${task.quantity1}, ${task.seedType2} - ${task.quantity2}, Опыт: ${task.experience}`;
+
+      const acceptButton = document.createElement('button');
+      acceptButton.textContent = 'Принять заказ';
+      acceptButton.addEventListener('click', () => {
+        acceptTask(taskItem, task);
+      });
+
+      taskItem.appendChild(taskImage);
+      taskItem.appendChild(taskDescription);
+      taskItem.appendChild(acceptButton);
+      tasksList.appendChild(taskItem);
+    }
+  }
+
+  function generateTask() {
+    const seedTypes = Object.keys(seedInventory);
+    const seedType1 = seedTypes[Math.floor(Math.random() * seedTypes.length)];
+    let seedType2 = seedTypes[Math.floor(Math.random() * seedTypes.length)];
+    while (seedType2 === seedType1) {
+      seedType2 = seedTypes[Math.floor(Math.random() * seedTypes.length)];
+    }
+
+    const quantity1 = Math.floor(Math.random() * 11) + 5;
+    const quantity2 = Math.floor(Math.random() * 11) + 5;
+    const experience = Math.floor(Math.random() * 51) + 20;
+
+    return {
+      seedType1,
+      seedType2,
+      quantity1,
+      quantity2,
+      experience
+    };
+  }
+
+  function acceptTask(taskItem, task) {
+    const completeButton = document.createElement('button');
+    completeButton.textContent = 'Сдать';
+    completeButton.addEventListener('click', () => {
+      completeTask(taskItem, task);
+    });
+
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Отменить';
+    cancelButton.addEventListener('click', () => {
+      cancelTask(taskItem, task);
+    });
+
+    taskItem.innerHTML = '';
+    taskItem.appendChild(completeButton);
+    taskItem.appendChild(cancelButton);
+  }
+
+  function completeTask(taskItem, task) {
+    if (seedInventory[task.seedType1] >= task.quantity1 && seedInventory[task.seedType2] >= task.quantity2) {
+      seedInventory[task.seedType1] -= task.quantity1;
+      seedInventory[task.seedType2] -= task.quantity2;
+      updateExperience(task.experience);
+      updateStorage();
+      taskItem.remove();
+      generateNewTask();
+      showNotification('Заказ сдан!');
+    } else {
+      showNotification('Недостаточно семян на складе!');
+    }
+  }
+
+  function cancelTask(taskItem, task) {
+    taskItem.remove();
+    generateNewTask();
+    showNotification('Заказ отменён!');
+  }
+
+  function generateNewTask() {
+    const newTask = generateTask();
+    tasks.push(newTask);
+    const taskItem = document.createElement('div');
+    taskItem.classList.add('task-item');
+
+    const taskImage = document.createElement('img');
+    taskImage.src = taskImages[tasks.length % 2];
+    taskImage.classList.add('task-icon');
+
+    const taskDescription = document.createElement('div');
+    taskDescription.textContent = `${newTask.seedType1} - ${newTask.quantity1}, ${newTask.seedType2} - ${newTask.quantity2}, Опыт: ${newTask.experience}`;
+
+    const acceptButton = document.createElement('button');
+    acceptButton.textContent = 'Принять заказ';
+    acceptButton.addEventListener('click', () => {
+      acceptTask(taskItem, newTask);
+    });
+
+    taskItem.appendChild(taskImage);
+    taskItem.appendChild(taskDescription);
+    taskItem.appendChild(acceptButton);
+    tasksList.appendChild(taskItem);
+  }
 
   updateCoins();
 });
