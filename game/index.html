@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Ферма - Игровое поле</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="images/window/rating-window.css">
   <style>
     body {
       overflow: hidden; /* Отключаем скролл */
@@ -82,7 +83,7 @@
         <img src="images/shop.png" alt="Магазин">
         <span>Магазин</span>
       </div>
-      <div class="button">
+      <div class="button" id="rating">
         <img src="images/rating.png" alt="Рейтинг">
         <span>Рейтинг</span>
       </div>
@@ -120,7 +121,14 @@
     <button id="close-shop">Закрыть магазин</button>
   </div>
 
+  <!-- Окно рейтинга -->
+  <div id="rating-window" class="hidden">
+    <button id="close-rating-window">Закрыть</button>
+    <div id="rating-list"></div>
+  </div>
+
   <script src="script.js"></script>
+  <script src="images/window/rating-window.js"></script>
 
 </body>
 </html>

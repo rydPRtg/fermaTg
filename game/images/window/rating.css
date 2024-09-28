@@ -1,0 +1,48 @@
+#rating-window {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  background-color: #fff;
+  border: 2px solid #333;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 1002;
+  overflow-y: auto;
+  max-height: 70%;
+}
+
+.rating-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#rating-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rating-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.rating-item img {
+  width: 50px;
+  height: 50px;
+}
+
+.rating-item span {
+  margin-right: 10px;
+}
+
+.rating-item button {
+  margin-left: 5px;
+}

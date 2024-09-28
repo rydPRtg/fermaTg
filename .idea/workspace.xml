@@ -7,8 +7,6 @@
     <list default="true" id="5242bdcd-0dd7-4646-9f02-8f0a558e9ee0" name="Changes" comment="заказы">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/game/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/game/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/game/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
